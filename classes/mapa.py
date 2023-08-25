@@ -12,8 +12,9 @@ class Mapa:
     def get_tamanho(self):
         return self._tamanho
 
-    def set_tamanho(self,tamanho):
-        self._tamanho = tamanho
+    def set_tamanho(self):
+        difficult = self.get_dificult()
+        self._tamanho = TAMANHO_DIFFICULT_MAPPER[difficult]
 
     def allocate_bombs_and_points(self,pontos):
         pontos_copy = pontos.copy()
@@ -33,13 +34,15 @@ class Mapa:
 
     def set_dificult(self,dificult):
         self._dificult = dificult
+        self.set_tamanho()
+        self.set_bomb_rate()
 
     def get_dificult(self):
         return self._dificult
 
     def set_bomb_rate(self):
         dificult = self.get_dificult()
-        self._bomb_rate = DIFICULT_MAPPER[dificult]
+        self._bomb_rate = DIFICULT_MAPPER_BOMB_RATE[dificult]
 
     def get_boomb_rate(self):
         return self._bomb_rate
@@ -53,10 +56,18 @@ class Mapa:
 
 
 
-DIFICULT_MAPPER = {
+DIFICULT_MAPPER_BOMB_RATE = {
         1: 0.2,
         2: 0.3,
         3: 0.4,
         4: 0.5,
         5: 0.6
+}
+
+TAMANHO_DIFFICULT_MAPPER = {
+    1: 3,
+    2: 4,
+    3: 5,
+    4: 6,
+    5: 7
 }

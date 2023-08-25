@@ -1,3 +1,6 @@
+from classes.mapa import Mapa
+
+
 class Jogo:
 
     def __init__(self,dificult = 3):
@@ -5,4 +8,6 @@ class Jogo:
 
 
     def generate_map(self,dificult):
-        pass
+        mapa = Mapa()
+        mapa.set_dificult(dificult)
+        mapa.generate_pontos()
