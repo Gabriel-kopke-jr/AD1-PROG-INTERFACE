@@ -1,5 +1,5 @@
 from random import randint
-from math import floor
+from math import ceil
 class Mapa:
 
 
@@ -21,15 +21,15 @@ class Mapa:
         tamanho = self.get_tamanho()
         bombs = []
         while self.bombs_is_not_allocated(bombs):
-            x = randint(0,tamanho)
-            y = randint(0,tamanho)
+            x = randint(0,tamanho-1)
+            y = randint(0,tamanho-1)
 
             if (x,y) not in bombs:
                 bombs.append((x,y))
                 pontos_copy.remove((x,y))
 
         self._bombs = bombs
-        self._pontos =pontos
+        self._pontos =pontos_copy
 
 
     def set_dificult(self,dificult):
@@ -52,7 +52,7 @@ class Mapa:
         tamanho = self.get_tamanho()
         total_pontos = tamanho**2
         bombas = total_pontos*self.get_boomb_rate()
-        return len(bombs) == floor(bombas)
+        return len(bombs) < ceil(bombas)
 
 
 
