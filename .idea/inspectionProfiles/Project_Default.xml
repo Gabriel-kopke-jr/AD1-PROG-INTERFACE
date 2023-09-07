@@ -1,0 +1,16 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="Q2.main.txt" />
+          <option value="Q2.test_files.teste1" />
+          <option value="Q2.main.Teste1" />
+          <option value="Q2.main.teste1" />
+          <option value="src.main.ConectionMongo" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

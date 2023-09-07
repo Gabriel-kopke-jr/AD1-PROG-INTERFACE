@@ -12,3 +12,7 @@ JOGO_CAMPO_MINADO = """
 Bem vindo ao campo minado   
 """
 
+LEGENDA = """
+O ->  Bomba
+X ->  Espaco sem bomba
+"""

@@ -15,11 +15,16 @@ jogo.generate_map()
 jogo.generate_first_vision()
 
 while jogo.get_is_not_end():
-    x = input("Digite a coordenada x ")
-    y = input("Digite a coordenada y ")
-    should_read_again  = jogo.validate_points(x,y)
-    if should_read_again:
-        print("Digite novamente os pontos")
-        continue
+    should_read_again = False
+    while should_read_again == False:
+        x = input("Digite a coordenada x ")
+        is_valid_x = jogo.is_valide_point(x)
+        y = input("Digite a coordenada y ")
+        is_valid_y = jogo.is_valide_point(y)
+        should_read_again = is_valid_x and is_valid_y
+    jogo.process_entry(x,y)
+
+
+
 
 
