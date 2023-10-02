@@ -53,8 +53,9 @@ class Jogo:
         if test_tuple in bombs:
             self.set_is_not_end(False)
             self.generate_vision_end_game()
-
-        self.generate_vision(x,y)
+        else:
+            self.generate_vision(x,y)
+        self.check_is_end()
         return vision
 
 
@@ -67,20 +68,95 @@ class Jogo:
         line = vision[x_int]
         new_line = self.generate_line_with_point_choiced(line,y_int)
         vision[x_int] = new_line
-        self.update_vision(vision)
+        self.update_vision(vision,x_int,y_int)
         print(self._vision)
-        return
 
 
-    def update_vision(self,vision):
+    def update_vision(self,vision,x_int,y_int):
+
         result = ""
         for i in range(len(vision)):
             if i != 0:
                 result += '\n'
             for j in range(len(vision)):
                 result += vision[i][j]
+        final_vision = self.fill_bombs(vision,x_int,y_int)
+        self.set_vision(final_vision)
+
+    def fill_bombs(self,vision,x_int,y_int):
+        x_busca_sup, x_busca_inf = x_int - 1, x_int + 1
+        y_busca_esq, y_busca_dir = y_int -1 , y_int + 1
+        points_x = [x_busca_sup,x_busca_inf]
+        points_y = [y_busca_esq,y_busca_dir]
+        points_validated_x = [ Jogo.validate_point_negative(Jogo.validate_point_after_limit(element,len(vision),x_int),x_int) for element in points_x ]
+        points_validated_y = [ Jogo.validate_point_negative(Jogo.validate_point_after_limit(element,len(vision),y_int),y_int) for element in points_y ]
+        points_search = [(x, y) for x in points_validated_x for y in points_validated_y]
+        vision_bombs = self.search_bombs(points_search,vision)
+        return vision_bombs
+
+
+    def search_bombs(self,points_search_bombs,vision):
+        result = ""
+        bombs = self.get_bombs()
+        number = len([element for element in points_search_bombs if element in self.get_bombs()])
+        for i in range(len(vision)):
+            if i != 0:
+                result += '\n'
+            for j in range(len(vision)):
+                if (i,j) in points_search_bombs:
+                    result += f'{number}'
+                else:
+                    result += vision[i][j]
+        return result
+
+
+
+
+    @staticmethod
+    def validate_point_negative(coordinate,limit):
+        if coordinate < 0:
+            return limit
+        return coordinate
+
+    @staticmethod
+    def validate_point_after_limit(coordinate,tamanho_lista,limit):
+        if coordinate > tamanho_lista:
+            return limit
+        return coordinate
+
+
+    def check_is_end(self):
+        vision = self.get_vision()
+        vision = vision.split('\n')
+        vision = [element.replace(' ', '') for element in vision]
+        vision_to_check = []
+        for line in vision:
+            vision_to_check.extend(line)
+        number_of_spaces = vision_to_check.count('_')
+        if number_of_spaces <= 1:
+            self.set_is_not_end(False)
+            self.make_winner_vision()
+
+
+
+
+    def make_winner_vision(self):
+        vision = self.get_vision()
+        result = ""
+        for i in range(len(vision)):
+            if i != 0:
+                result += '\n'
+            for j in range(len(vision)):
+                if vision[i][j] == "_":
+                    result += 'X'
+                result += vision[i][j]
         self.set_vision(result)
-        return
+
+
+
+
+
+
 
     def get_vision(self):
         return self._vision
